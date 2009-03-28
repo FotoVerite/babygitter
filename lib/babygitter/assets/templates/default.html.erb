@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+		<title><%= @project_name  %> / Git Repository Report / <%= Time.now.strftime("%b %d %I:%M %p") %></title>
+		
+		<script type="text/javascript">
+			<%= jquery %>
+		</script>
+		
+		<script type="text/javascript">
+		$(document).ready(function() {
+	
+			var openDiv = function() {
+	         $(this).removeClass('open');
+	         $(this).next('div.toggle').hide();
+	       	};
+
+	      	var closeDiv = function() {
+	         $(this).addClass('open');
+	         $(this).next('div.toggle').show();
+	       	};
+	
+			$(".toggler").css({cursor:'pointer'}).click(function(){
+		    	if ($(this).hasClass('open')) {
+	           		$(this).each(openDiv);
+	         	} 
+				else {
+	           		$(this).each(closeDiv)
+	         	}
+		 	});
+		
+			$("a.image_gallery").fancybox({
+					'zoomSpeedIn': 500, 
+					'zoomSpeedOut':	500, 
+					'overlayShow': false,
+					'easingChange': 'linear'
+			});
+		 });
+		</script>
+		
+		<style>
+			<%= stylesheet %>
+		</style>
+	
+	</head>
+
+	<body>
+
+		<div id="container">
+
+			<h1> <%= @project_name  %> / Git Repository Report / <%= Time.now.strftime("%b %d %I:%M %p") %></h1>
+			<hr />
+			<br />
+			<div id="summary">
+				<h2>Summary</h2>
+				<p>The main repository on this server is at version <tt><%= @lastest_commit.id_abbrev %></tt>.
+				<p>It was last deployed <%=@lastest_commit.date_time_string  %>.</p>
+				<p><%= authors_list(@authors_names) %> committed to this project since <%= @began.date_time_string%>.</p>
+				<p style="float:left; margin-right:5px"> The repository has <%=pluralize(@branches.size, "branch") %>:</p>
+				<%= bl(@branch_names) %>
+				<p style="clear:both;">They have committed a total of <%=pluralize(@total_commits, "commit")%></p>
+			</div>
+			
+			<%=branch_details(@branches, @remote_url)%>
+			
+			<div id="additional_links">
+				<%= additional_links %>
+			</div>
+		
+			<% unless submodule_list.nil? %>
+			<div id="submodules">
+				<h2>Submodules</h2>
+				<ul>
+					<%= @submodule_list.split("\n").map { |s| "<li><tt>#{s.strip}</tt></li>" }.join("\n") %>
+				</ul>
+			</div>
+			<% end %>
+			
+			<div id="instructions">
+			Does this need instructions
+			</div>
+		
+			<div id="about">
+				<h2>About</h2>
+				<p>
+					babygitter: <a href="http://github.com/schwabsauce/babygitter">http://github.com/schwabsauce/babygitter</a>
+				</p>
+			</div>
+		
+		</div>
+
+	</body>
+</html>
