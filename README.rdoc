@@ -1,0 +1,7 @@
+= fotoverite-babygitter
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Matthew Bergman. See LICENSE for details.
