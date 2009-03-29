@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'ostruct'
+require 'pp'
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'fotoverite_babygitter'
+
+Babygitter::ReportGenerator::Application.run!(*ARGV)

@@ -9,7 +9,7 @@ module Babygitter
       :background_colors => %w(black grey) # you can use instead: :background_image => ‘some_image.png’
     }
     SMALL_SIZE ="183x184"
-
+  
     def create_histograph_of_commits_by_author_for_branch(branch)
       large_file_path = create_large_histograph_of_commits_by_author_for_branch(branch)
       small_file_path = create_small_histograph_of_commits_by_author_for_branch(branch)
@@ -28,7 +28,7 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", [author.total_committed])
       end
-      file_path = "#{Babygitter.report_file_path}/babygitter_report/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
       g.write(file_path)
       file_path
     end
@@ -44,7 +44,7 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", [author.total_committed])
       end
-      file_path ="#{Babygitter.report_file_path}/babygitter_report/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      file_path ="/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
       g.write(file_path)
       file_path
     end
@@ -66,7 +66,7 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", author.create_bar_data_points)
       end
-      file_path = "#{Babygitter.report_file_path}/babygitter_report/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
       g.write(file_path)
       file_path
     end
@@ -82,7 +82,7 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", author.create_bar_data_points)
       end
-      file_path = "#{Babygitter.report_file_path}/babygitter_report/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      file_path = "/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
       g.write(file_path)
       file_path
     end
@@ -104,7 +104,7 @@ module Babygitter
         g.data(key, value)
       end
 
-      file_path = "#{Babygitter.report_file_path}/babygitter_report/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
       g.write(file_path)
       file_path
     end
@@ -118,7 +118,7 @@ module Babygitter
         key = "program_folder" if key == ""
         g.data(key, value)
       end
-      file_path = "#{Babygitter.report_file_path}/babygitter_report/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      file_path = "/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
       g.write(file_path)
       file_path
     end
@@ -141,7 +141,7 @@ module Babygitter
 
       g.data("#{author.name}", author.create_bar_data_points)
       g.no_data_message = "No Commits"
-      filepath ="#{Babygitter.report_file_path}/babygitter_report/babygitter_images/#{author.name.gsub(/ |\/|\\/, "_")}_commits_last_52_weeks.png"
+      filepath ="/babygitter_images/#{author.name.gsub(/ |\/|\\/, "_")}_commits_last_52_weeks.png"
       g.write(filepath)
       "<img src =#{filepath} />"
     end

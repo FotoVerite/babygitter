@@ -33,7 +33,11 @@ module Babygitter
       branches.map do |branch|
       "<h2 class='toggler open' id='#{branch.name.gsub(/ /, '')}'>#{branch.name}</h2>\n
       <div class='toggle'>\n" +
-      image_gallery(branch) +
+      unless Babygitter.folder_levels.empty? || Babygitter.folder_levels == [0]
+        image_gallery(branch) 
+      else
+        ""
+      end +
       "<div class='branch_details'>\n" +
       author_links(branch) +
       branch_synopsis(branch) +

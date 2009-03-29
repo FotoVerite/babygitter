@@ -8,7 +8,9 @@ require 'babygitter/repo'
 require 'babygitter/report_generator'
 require 'babygitter/branch'
 require 'babygitter/author'
-require 'babygitter/version'
+require 'babygitter/report_generator/application'
+require 'babygitter/report_generator/options'
+
 #added class for grit
 require 'babygitter/commit_addedum'
 require 'babygitter/commit_stats_addedum'
@@ -41,7 +43,7 @@ module Babygitter
     end
     
     def report_file_path
-      "#{@repo_path.gsub(/\/$/, "")}" + "/log"
+      "#{@repo_path.gsub(/\/$/, "")}" + "/log/babygitter_report"
     end
   
   end
