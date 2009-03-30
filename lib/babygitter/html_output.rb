@@ -12,19 +12,17 @@ module Babygitter
      end
    end
    
-   def bl(branches_names)
+   def branch_names_list(branches_names)
       case branch_names.length
       when 1:
         "<ul class='page_control'>
-            <li><a href=##{branch_names.first.gsub(/ /, "")}>#{branch_names.first}</a></li>
-         </ul>"
+            <li><a href=##{branch_names.first.gsub(/ /, "")}>#{branch_names.first}</a></li>\n</ul>"
       else
         string = "<ul class='page_control'>" 
          for name in branch_names[0..-2]
             string += "<li><a href=##{name.gsub(/ /, "")}>#{name}</a></li>\n"
          end
-          string += "<li>and <a href=##{branch_names.last.gsub(/ /, "")}>#{branch_names.last}</a></li>
-        </ul>"
+          string += "<li>and <a href=##{branch_names.last.gsub(/ /, "")}>#{branch_names.last}</a></li>\n</ul>"
         string
       end
     end
@@ -33,7 +31,11 @@ module Babygitter
       branches.map do |branch|
       "<h2 class='toggler open' id='#{branch.name.gsub(/ /, '')}'>#{branch.name}</h2>\n
       <div class='toggle'>\n" +
-      image_gallery(branch) +
+      unless Babygitter.output_graphs
+        image_gallery(branch) 
+      else
+        "" 
+      end +
       "<div class='branch_details'>\n" +
       author_links(branch) +
       branch_synopsis(branch) +
@@ -61,8 +63,8 @@ module Babygitter
     
     def branch_synopsis(branch)
       "<p>Last commit was <tt>#{link_to_github?(branch.latest_commit, remote_url)}</tt> by #{branch.latest_commit.author.name} " +
-      "on #{branch.latest_commit.date_time_string}</p>
-      <p>They have committed a total of #{pluralize(branch.total_commits, "commit", "branches")}</p>" +
+      "on #{branch.latest_commit.date_time_string}</p>\n" +
+      "<p>They have committed a total of #{pluralize(branch.total_commits, "commit", "branches")}</p>" +
       if branch.is_master_branch
       "<p>This is the designated master branch</p>"
       else
@@ -113,16 +115,16 @@ module Babygitter
       names =  branch.author_names
       case names.length
       when 1:
-        "<ul class='page_control'>
-            <li>Only <a href=##{branch.name}_#{names.first.gsub(/ /, "")}>#{names.first}</a> has committed to #{branch.name}</li>
-         </ul>"
+        "<ul class='page_control'>\n" +
+        "<li>Only <a href=##{branch.name}_#{names.first.gsub(/ /, "")}>#{names.first}</a> has committed to #{branch.name}</li>\n" +
+        "</ul>"
       else
         "<ul class='page_control'>" + 
-          names[0..-2].map do |name|
-           "<li><a href=##{branch.name}_#{name.gsub(/ /, "")}>#{name}</a>,</li>"
-          end.join("\n") +
-           "<li><a href=##{branch.name}_#{names.last.gsub(/ /, "")}>#{names.last}</a> have committed to #{branch.name}</li>
-        </ul>"
+        names[0..-2].map do |name|
+          "<li><a href=##{branch.name}_#{name.gsub(/ /, "")}>#{name}</a>,</li>"
+        end.join("\n") +
+        "\n<li><a href=##{branch.name}_#{names.last.gsub(/ /, "")}>#{names.last}</a> have committed to #{branch.name}</li>\n" +
+        "</ul>"
       end
    end
    

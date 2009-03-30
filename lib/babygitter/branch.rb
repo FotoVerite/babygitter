@@ -62,14 +62,22 @@ module Babygitter
       def create_hash_map(array)
         hash = {}
         array.map {|folder| hash[folder] = 0}
-        hash[""] = 0
+        if Babygitter.use_whitelist
+          hash[""] = 0 unless Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+        else
+          hash[""] = 0 if Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+        end
         hash
       end
       
       def create_hash_map_with_array(array)
         hash = {}
         array.map {|folder| hash[folder] = [0]}
-        hash[""] = [0]
+        if Babygitter.use_whitelist
+          hash[""] = [0] unless Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+        else
+          hash[""] = [0] if Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+        end
         hash
       end
       

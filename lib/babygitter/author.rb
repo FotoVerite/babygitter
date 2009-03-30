@@ -27,9 +27,7 @@ module Babygitter
         end
         points_array
       end
-      
-      private
-      
+            
       def create_52_week_map
         array = []
         now = Time.now
@@ -40,10 +38,6 @@ module Babygitter
           i += 1
         end
         array.reverse
-      end
-      
-      def inspect
-        %Q{#<Babygitter::Author #{@name}>}
       end
       
   end

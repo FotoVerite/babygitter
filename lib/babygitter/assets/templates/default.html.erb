@@ -61,7 +61,7 @@
 				<p>It was last deployed <%=@lastest_commit.date_time_string  %>.</p>
 				<p><%= authors_list(@authors_names) %> committed to this project since <%= @began.date_time_string%>.</p>
 				<p style="float:left; margin-right:5px"> The repository has <%=pluralize(@branches.size, "branch") %>:</p>
-				<%= bl(@branch_names) %>
+				<%= branch_names_list(@branch_names) %>
 				<p style="clear:both;">They have committed a total of <%=pluralize(@total_commits, "commit")%></p>
 			</div>
 			
