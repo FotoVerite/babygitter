@@ -33,11 +33,7 @@ module Babygitter
       branches.map do |branch|
       "<h2 class='toggler open' id='#{branch.name.gsub(/ /, '')}'>#{branch.name}</h2>\n
       <div class='toggle'>\n" +
-      unless Babygitter.folder_levels.empty? || Babygitter.folder_levels == [0]
-        image_gallery(branch) 
-      else
-        ""
-      end +
+      image_gallery(branch) +
       "<div class='branch_details'>\n" +
       author_links(branch) +
       branch_synopsis(branch) +
@@ -53,10 +49,14 @@ module Babygitter
     
     def image_gallery(branch)
       "<div class='image_gallery'>\n" +
-       create_histograph_of_commits_by_author_for_branch(branch) + "\n" +
-       create_stacked_bar_graph_of_commits_by_author_for_branch(branch) + "\n" +
-       folder_graphs(branch, Babygitter.folder_levels) +
-       "</div>\n"
+      create_histograph_of_commits_by_author_for_branch(branch) + "\n" +
+      create_stacked_bar_graph_of_commits_by_author_for_branch(branch) + "\n" +
+      unless Babygitter.folder_levels.empty? || Babygitter.folder_levels == [0]
+        folder_graphs(branch, Babygitter.folder_levels)
+      else
+        "" 
+      end +
+      "</div>\n"
     end
     
     def branch_synopsis(branch)

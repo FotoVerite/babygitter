@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/spec_helper'
-require 'grit'
 
   GIT_REPO =Babygitter::ReportGenerator.new(File.join(File.dirname(__FILE__), "/dot_git"), :is_bare => true)
 

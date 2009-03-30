@@ -3,3 +3,5 @@
 coverage
 rdoc
 pkg
+spec/dot_git/log
+spec/simple_git_repo.git/log

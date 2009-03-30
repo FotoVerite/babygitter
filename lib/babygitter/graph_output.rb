@@ -28,9 +28,10 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", [author.total_committed])
       end
-      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      image_path = "babygitter_images/large_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      file_path = "#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_small_histograph_of_commits_by_author_for_branch(branch)
@@ -44,9 +45,10 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", [author.total_committed])
       end
-      file_path ="/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      image_path = "babygitter_images/small_#{branch.name.gsub(/\//, "_")}_commits_by_author.png"
+      file_path ="#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_stacked_bar_graph_of_commits_by_author_for_branch(branch)
@@ -66,9 +68,10 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", author.create_bar_data_points)
       end
-      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      image_path = "babygitter_images/large_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      file_path = "#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_small_stacked_bar_graph_of_commits_by_author_for_branch(branch)
@@ -82,9 +85,10 @@ module Babygitter
       for author in branch.authors
         g.data("#{author.name}", author.create_bar_data_points)
       end
-      file_path = "/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      image_path= "babygitter_images/small_#{branch.name.gsub(/\//, "_")}_stacked_bar_graph_by_author.png"
+      file_path = "#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_folder_graph(branch, level)
@@ -103,10 +107,10 @@ module Babygitter
         key = "program_folder" if key == ""
         g.data(key, value)
       end
-
-      file_path = "/babygitter_images/large_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      image_path = "babygitter_images/large_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      file_path = "#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_small_folder_graph(branch, level)
@@ -118,9 +122,10 @@ module Babygitter
         key = "program_folder" if key == ""
         g.data(key, value)
       end
-      file_path = "/babygitter_images/small_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      image_path = "babygitter_images/small_#{branch.name.gsub(/\//, "_")}_level_#{level}_line_graph.png"
+      file_path = "#{Babygitter.report_file_path}/#{image_path}"
       g.write(file_path)
-      file_path
+      "./#{image_path}"
     end
 
     def create_bar_graph_of_commits_in_the_last_52_weeks(author)
@@ -141,9 +146,10 @@ module Babygitter
 
       g.data("#{author.name}", author.create_bar_data_points)
       g.no_data_message = "No Commits"
-      filepath ="/babygitter_images/#{author.name.gsub(/ |\/|\\/, "_")}_commits_last_52_weeks.png"
+      image_path ="babygitter_images/#{author.name.gsub(/ |\/|\\/, "_")}_commits_last_52_weeks.png"
+      filepath ="#{Babygitter.report_file_path}/#{image_path}"
       g.write(filepath)
-      "<img src =#{filepath} />"
+      "<img src ='./#{image_path}' />"
     end
   end
 

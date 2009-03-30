@@ -12,16 +12,8 @@ module Babygitter
         @latest_commit = commits.first
       end
       
-      def create_52_week_map
-        array = []
-        now = Time.now
-        i = 0
-        while i < 52
-          array << now.strftime("%U %Y")
-          now -= (60*60*24*7)
-          i += 1
-        end
-        array.reverse
+      def inspect
+        %Q{#<Babygitter::Author #{@total_committed} #{@name}>}
       end
       
       def create_bar_data_points 
@@ -34,6 +26,20 @@ module Babygitter
           end
         end
         points_array
+      end
+      
+      private
+      
+      def create_52_week_map
+        array = []
+        now = Time.now
+        i = 0
+        while i < 52
+          array << now.strftime("%U %Y")
+          now -= (60*60*24*7)
+          i += 1
+        end
+        array.reverse
       end
       
   end
