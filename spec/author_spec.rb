@@ -45,4 +45,8 @@ describe Babygitter::Author do
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   end
   
+  it "should inspect correctly" do
+    AUTHOR.inspect.should == "#<Babygitter::Author Chris Wanstrath> >"
+  end
+  
 end

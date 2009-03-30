@@ -29,8 +29,8 @@ module Babygitter
   class << self
     # Customizable options
     attr_reader :version
-    attr_accessor :repo_path, :image_assets_path, :stylesheet, :template, :additional_links, :instructions, :use_whitelist,
-    :jquery, :folder_levels, :marked_folders
+    attr_accessor :repo_path, :image_assets_path, :stylesheet, :template, :additional_links, 
+    :instructions, :use_whitelist, :output_graphs, :jquery, :folder_levels, :marked_folders
     
     def blacklisted_folders=(marked_folders)
       raise "must be an array" unless blacklisted_folders.is_a?(Array)
@@ -56,6 +56,7 @@ module Babygitter
   self.additional_links = File.join(File.dirname(__FILE__), 'babygitter/assets/guides/bdd_stack.html.erb')
   self.instructions = File.join(File.dirname(__FILE__), 'babygitter/assets/guides/display_only.html.erb')
   self.use_whitelist = false
+  self.output_graphs = true
   self.folder_levels = [1]
   self.marked_folders = []
 

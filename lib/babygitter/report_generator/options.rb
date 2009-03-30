@@ -12,7 +12,7 @@ module Babygitter
           opts.separator ""
           opts.separator "Specific options:"
 
-          # Mark folders to be whitelisted or lacklisted
+          # Set folder levels to be plotted
           opts.on("-l", "--levels [n1,n2,n3]",
                   "Folder levels to map to graph", Array) do |levels|  
             Babygitter.folder_levels  = levels.map {|n| n.to_i} unless levels.nil?
@@ -23,6 +23,29 @@ module Babygitter
                   "Mark folders to be white or black listed depending on option", Array) do |folders|
             Babygitter.marked_folders  = folders  unless folders.nil?
           end
+          
+          # Set the stylesheet
+          opts.on("-s", "--stylesheet [Path]",
+                  "sets the path to a non default stylesheet used in for the report generator", Array) do |folders|
+            Babygitter.marked_folders  = folders  unless folders.nil?
+          end
+          
+          # Set the stylesheet
+          opts.on("-s", "--stylesheet [Path]",
+                  "sets the path to a non default stylesheet used in for the report generator") do |path|
+            Babygitter.stylesheet = path
+          end
+          
+          # Set the stylesheet
+          opts.on("-t", "--template [Path]",
+                  "sets the path to a non default template used in for the report generator") do |path|
+            Babygitter.template = path
+          end
+          
+          # Boolean switch.
+          opts.on("-b", "--[no-]bare", "Mark repo as bare") do |b|
+            self[:is_bare] = b
+          end
 
           # Boolean switch.
           opts.on("-w", "--[no-]whitelist", "Run babygitter with whitelist enabled") do |w|
@@ -30,10 +53,10 @@ module Babygitter
           end
 
           # Boolean switch.
-          opts.on("-b", "--[no-]bare", "Mark repo as bare") do |b|
-            self[:is_bare] = b
+          opts.on("-g", "--[yes-]graphs", "Do not output report with graphs") do |g|
+            Babygitter.use_whitelist = !g
           end
-
+          
           # Boolean switch.
           opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
             self[:verbose] = v
@@ -53,6 +76,7 @@ module Babygitter
             self[:show_version_number] = true
           end
         end
+        
         begin
           @opts.parse!(args)
         rescue OptionParser::ParseError => e

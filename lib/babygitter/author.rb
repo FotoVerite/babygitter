@@ -42,5 +42,9 @@ module Babygitter
         array.reverse
       end
       
+      def inspect
+        %Q{#<Babygitter::Author #{@name}>}
+      end
+      
   end
 end

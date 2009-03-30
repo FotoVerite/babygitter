@@ -18,7 +18,7 @@ describe Babygitter::Repo do
   end
   
   it "should get the git repository's project name" do
-    GIT_REPO.project_name.should == "Grit"
+    GIT_REPO.project_name.should == "Dot_git"
   end
   
   it "should store all instances of the git branches" do
@@ -50,6 +50,10 @@ describe Babygitter::Repo do
   
   it "should find all the branches a commit is part of" do
     GIT_REPO.branches_that_contain_commit(GIT_REPO.branches.first.commits.first).should == ["master", "  nonpack", "  test/chacon"]
+  end
+  
+  it "should inspect correctly" do
+    GIT_REPO.inspect.should == "#<Babygitter::Repo Dot_git>"
   end
   
 end

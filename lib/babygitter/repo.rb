@@ -9,6 +9,7 @@ module Babygitter
     :submodule_list, :project_name
   
     def initialize(path, options = {}, master_branch_name=nil)
+      Babygitter.repo_path = path
       repo = Grit::Repo.new(path, options)
       @path = repo.path
       @bare = options[:is_bare]
@@ -84,7 +85,7 @@ module Babygitter
         project_name = @config.fetch("remote.origin.url").clone
         project_name.gsub!(/.*?\/|.*?:|.git/, "")
       else
-        Babygitter.repo_path.gsub(/.*\/(?!\s)|.git$|\/$/, "") 
+        Babygitter.repo_path.gsub(/.*\/(?!\s)|\.git$|\/$/, "") 
       end
     end
     
@@ -116,7 +117,7 @@ module Babygitter
     
   
     def inspect
-      %Q{#<Babygitter::Repo #{@id}>}
+      %Q{#<Babygitter::Repo #{@project_name}>}
     end
   
   end

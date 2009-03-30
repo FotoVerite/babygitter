@@ -80,5 +80,9 @@ describe Babygitter::Branch do
     BRANCH.is_master_branch.should == false
     MASTER_BRANCH.is_master_branch.should == true
   end
+  
+  it "should inspect correctly" do
+    BRANCH.inspect.should == "#<Babygitter::Branch 105 >"
+  end
       
 end
