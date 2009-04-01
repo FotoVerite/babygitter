@@ -1,3 +1,15 @@
+# Babygitter analyzes a git repository and outputs
+# a html document detailing all branches and the commits 
+# committed on them. It also will ouput graphs with plotting out
+# the relationship between authors and the number of commits they 
+# have made and an anylsys as to how folders and their files lines
+# of code have grown
+#
+
+# Author::    Matthew Bergman  (mailto:fotoverite@gmail.com)
+# Copyright:: Copyright (c) 2009 
+# License::   Distributes under the MIT license
+
 require 'cgi'
 require 'rubygems'
 require 'grit'
@@ -14,34 +26,31 @@ require 'babygitter/report_generator/options'
 #added class for grit
 require 'babygitter/commit_addedum'
 require 'babygitter/commit_stats_addedum'
+require 'babygitter/to_proc_addedum'
 
 
-
-
-class Symbol
-  def to_proc
-    lambda {|i| i.send(self)}
-  end
-end
-
+# This module holds basic settings for the html generator.
+#TODO figure out if this should instead be a class
 module Babygitter
   
   class << self
     # Customizable options
-    attr_reader :version
     attr_accessor :repo_path, :image_assets_path, :stylesheet, :template, :additional_links, 
     :instructions, :use_whitelist, :output_graphs, :jquery, :folder_levels, :marked_folders
     
+    #checks to make sure that this option is an array durring writing to the blacklisted_folders option
     def blacklisted_folders=(marked_folders)
       raise "must be an array" unless blacklisted_folders.is_a?(Array)
       @blacklisted_folders = blacklisted_folders
     end
     
+    #checks to make sure that this option is an array  durring writing to the folder_levels option
     def folder_levels=(folder_levels)
       raise "must be an array" unless folder_levels.is_a?(Array)
       @folder_levels = folder_levels
     end
     
+    #creates path for the generated html
     def report_file_path
       "#{@repo_path.gsub(/\/$/, "")}" + "/log/babygitter_report"
     end

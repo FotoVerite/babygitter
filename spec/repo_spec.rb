@@ -48,10 +48,15 @@ describe Babygitter::Repo do
       "Scott Chacon", "Tim Carey-Smith", "tom", "Tom Preston-Werner", "Wayne Larsen"]
   end
   
-  it "should find all the branches a commit is part of" do
-    GIT_REPO.branches_that_contain_commit(GIT_REPO.branches.first.commits.first).should == ["master", "  nonpack", "  test/chacon"]
+  it "should find the designated branch" do
+    GIT_REPO.find_branch("master").should == GIT_REPO.branches[2]
   end
   
+  it "should find all the branches a commit is part of" do
+     GIT_REPO.in_which_branches(GIT_REPO.branches.first.commits.first.id).should == ["nonpack", "master", "test/chacon"]
+     GIT_REPO.in_which_branches(GIT_REPO.branches.first.commits[8].id).should == ["nonpack", "test/master", "master", "test/chacon", "testing"]
+  end
+   
   it "should inspect correctly" do
     GIT_REPO.inspect.should == "#<Babygitter::Repo Dot_git>"
   end

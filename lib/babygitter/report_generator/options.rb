@@ -24,6 +24,12 @@ module Babygitter
             Babygitter.marked_folders  = folders  unless folders.nil?
           end
           
+          # Set the name of the master branch
+          opts.on("--master_branch",
+                  "Set the master branch name if it is not called master") do |master_branch|
+            self[:master_branch] = master_branch
+          end
+          
           # Set the stylesheet
           opts.on("-s", "--stylesheet [Path]",
                   "sets the path to a non default stylesheet used in for the report generator", Array) do |folders|
@@ -32,13 +38,13 @@ module Babygitter
           
           # Set the stylesheet
           opts.on("-s", "--stylesheet [Path]",
-                  "sets the path to a non default stylesheet used in for the report generator") do |path|
+                  "sets the path to a non default stylesheet to be used in the report generator") do |path|
             Babygitter.stylesheet = path
           end
           
           # Set the stylesheet
           opts.on("-t", "--template [Path]",
-                  "sets the path to a non default template used in for the report generator") do |path|
+                  "sets the path to a non default template to be used inthe report generator") do |path|
             Babygitter.template = path
           end
           
@@ -53,8 +59,8 @@ module Babygitter
           end
 
           # Boolean switch.
-          opts.on("-g", "--[yes-]graphs", "Do not output report with graphs") do |g|
-            Babygitter.use_whitelist = !g
+          opts.on("-g", "--[yes-]graphs", "Do not output report with graphs") do 
+            Babygitter.output_graphs = false
           end
           
           # Boolean switch.

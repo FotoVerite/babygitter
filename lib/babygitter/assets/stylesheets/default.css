@@ -21,7 +21,7 @@ div {
 	clear:both;
 }
 
-div.image_gallery {float:left; border: 1px solid black; background:#E1E1E1; margin:5px 0px;}
+div.image_gallery {width:800px; float:left; border: 1px solid black; background:#E1E1E1; margin:5px 0px;}
 
 a { color:#336699; }
 
@@ -34,20 +34,32 @@ h1 {
 }
 h2 { font-size:2.6em; 
 	color:#999;
-	padding:5px 0;
-	
+	padding:0px 28px 5px 0;
 }
 
-h2.branch_name {
-	padding-right:10px;
+h2.toggler {
 	float:left;
+	background: transparent url('asset_images/h2_closed.png') no-repeat 100% 9px;
+	clear:both;
+}
+
+h2.open {
+	float:left;
+	background: transparent url('asset_images/h2_open.png') no-repeat 100% 9px;
 	clear:both;
 }
 
 h3 { font-size:2.0em; 
 	color:#999;
-	padding:5px 0;
+	padding:0px 25px 5px 0;
 	float:left;
+	background: transparent url('asset_images/h3_closed.png') no-repeat 100% 7px;
+	clear:both;
+}
+
+h3.open { font-size:2.0em; 
+	float:left;
+	background: transparent url('asset_images/h3_open.png') no-repeat 100% 7px;
 	clear:both;
 }
 p,ul {
@@ -59,6 +71,22 @@ p,ul {
 ul { 
 	padding-left:2.0em;
 	font-size:1.3em;
+}
+
+ul li.unique {
+	color:#5B75E7;
+}
+
+ul li.unique cite{
+	color:#A5B4E9;
+}
+
+ul li.branched {
+	color:#B45263;
+}
+
+ul li.branched cite{
+	color:#E9BBC9;
 }
 
 ul.page_control {

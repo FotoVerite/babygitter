@@ -7,7 +7,7 @@ module Babygitter
         def prepare_file_stucture
           path = Babygitter.report_file_path
           FileUtils.mkdir_p "#{path}/babygitter_images" unless File.exists?("#{path}/babygitter_images")
-          FileUtils.cp_r(Babygitter.image_assets_path, "#{path}/asset_images")
+          FileUtils.cp_r("#{Babygitter.image_assets_path}" + "/.", "#{path}/asset_images/")
         end
         
         def level_sentence
@@ -62,11 +62,11 @@ module Babygitter
           
           begin
             check_if_directory_exits(arguments)
+            Babygitter.repo_path = arguments.first
             if options[:verbose]
               verbose_output(options)
             end
-            Babygitter.repo_path = arguments.first
-            generator = Babygitter::ReportGenerator.new(Babygitter.repo_path, :is_bare => options[:is_bare])
+            generator = Babygitter::ReportGenerator.new(Babygitter.repo_path, {:is_bare => options[:is_bare]}, options[:master_branch])
             prepare_file_stucture
             $stdout.puts "Begun generating report."
             generator.write_report

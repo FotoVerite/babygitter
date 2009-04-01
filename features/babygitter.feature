@@ -1,8 +1,7 @@
 Feature: generating babygitter report
   In order to generate a babygitter report
-  A user should be able to
-  generate a report from the command line 
-  with various options
+  As a user 
+  I want to use the command line with various options
 
   Scenario: basic report no options
    	Given a project directory
@@ -93,5 +92,13 @@ Scenario: user wants to show the gem version
 	And I use the options '--version' 
 	When I generate a report for 'babygitter' 	
 	Then the version number is shown
- 
 
+Scenario: user inputs a nonexistent project directory
+	Given a project directory that doesn't exist
+	When I generate a report for 'babygitter'
+	Then '.* does not exist.' is displayed
+
+Scenario: user inputs a non-git directory
+	Given a project directory that is not a git director
+	When I generate a report for 'babygitter'
+	Then '.* does not exist.' is displayed

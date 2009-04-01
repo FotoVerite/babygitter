@@ -1,8 +1,12 @@
 require 'cgi'
 module Babygitter
+
+ class ReportGenerator < Babygitter::Repo
   
-  class ReportGenerator < Babygitter::Repo
-    
+  #Pluralizes the authors of a branch in a readable and gramatically correct manner 
+  #
+  #authors_list([Matt, Allen]) => Matt and allen have
+  #authors_list([Matt]) => Only Matt has
   def authors_list(array_of_authors)
      case array_of_authors.length
      when 1:
@@ -12,6 +16,7 @@ module Babygitter
      end
    end
    
+   #Pluralizes the branches in a XHTML correct manner with links to the branch headers
    def branch_names_list(branches_names)
       case branch_names.length
       when 1:
@@ -26,12 +31,13 @@ module Babygitter
         string
       end
     end
-
+    
+    #Output the git repo's branches details  in a XHTML correct manner 
    def branch_details(branches, remote_url)
       branches.map do |branch|
       "<h2 class='toggler open' id='#{branch.name.gsub(/ /, '')}'>#{branch.name}</h2>\n
       <div class='toggle'>\n" +
-      unless Babygitter.output_graphs
+      if Babygitter.output_graphs
         image_gallery(branch) 
       else
         "" 
@@ -64,36 +70,16 @@ module Babygitter
     def branch_synopsis(branch)
       "<p>Last commit was <tt>#{link_to_github?(branch.latest_commit, remote_url)}</tt> by #{branch.latest_commit.author.name} " +
       "on #{branch.latest_commit.date_time_string}</p>\n" +
-      "<p>They have committed a total of #{pluralize(branch.total_commits, "commit", "branches")}</p>" +
-      if branch.is_master_branch
-      "<p>This is the designated master branch</p>"
-      else
-        branched_when(branch)
-      end
-    end
-    
-    def branched_when(branch)
-      if branch.unique_commits.nil?
-        "<p>#{branch.name} is a stub with no unique commits </p>"
-      else
-        "<p>There are #{branch.unique_commits.size} #{branch.unique_commits.size > 1 ? 'unique commits' : 'unique commit'} for this branch</p>"
-      end
+      "<p>They have committed a total of #{pluralize(branch.total_commits, "commit", "branches")}</p>\n
+      #{"<p>This is the designated master branch</p>\n"  if branch.is_master_branch }" +
+      "<p>There are #{branch.unique_commits.size} #{branch.unique_commits.size == 1 ? 'unique commits' : 'unique commit'} for this branch</p>"
+      "<p>#{branch.name} branched at <a href='##{branch.name}_branched_here'>#{branch.branched_at.id_abbrev}</a></p>"
     end
     
     def show_commits(branch)
-      if branch.unique_commits.nil?
-        "<ul>
-          #{committer_detail(branch.commits, remote_url)}
-        </ul>"
-      else
-        index = branch.commits.map(&:id).index(branch.unique_commits.last.id)
-        "<ul class='unique'>
-          #{committer_detail(branch.commits[0..index], remote_url)}
-        </ul>
-        <ul>
-          #{committer_detail(branch.commits[index+1..-1], remote_url)}
-        </ul>"
-      end
+      "<ul>
+        #{branch_committer_detail(branch, branch.commits, remote_url)}
+      </ul>"
     end
    
    def author_details(branch_name, authors, remote_branch, total_for_branch)
@@ -103,14 +89,17 @@ module Babygitter
           create_bar_graph_of_commits_in_the_last_52_weeks(author) +
           "<p>#{author.name} first commit for this branch was on #{author.began.date_time_string} <br />
           They have committed #{pluralize(author.total_committed, "commit")} <br />
-          #{author.total_committed.to_f / total_for_branch} of the total for the branch<p>
+          #{amount_committed_to_total(author, total_for_branch)} of the total for the branch<p>
           <ul>
             #{committer_detail(author.commits, remote_url)}
           </ul>\n
         </div>"
       end.join("\n")
    end
-   
+
+   def amount_committed_to_total(author, total_for_branch)
+     ((author.total_committed.to_f / total_for_branch)*100.round)/100
+   end
    def author_links(branch)
       names =  branch.author_names
       case names.length
@@ -139,6 +128,20 @@ module Babygitter
    def committer_detail(commits, remote_url)
       commits.map do |c|
         '<li>' + CGI::escapeHTML(c.message) + 
+        ' <cite>' + c.author.name + ' ' +
+        c.date_time_string + 
+        '</cite> ' + link_to_github?(c, remote_url)+ '</li>'
+      end.join("\n")
+    end
+    
+    def commit_classes(branch, commit)
+      return "unique" if branch.unique_commits != nil && branch.unique_commits.map(&:id).include?(commit.id)
+      return "branched" if branch.branched_at.id == commit.id
+    end
+    
+    def branch_committer_detail(branch, commits, remote_url)
+      commits.map do |c|
+        "<li id='#{branch.name + '_branched_here' if c.id == branch.branched_at.id}' class=#{commit_classes(branch, c)}>" + CGI::escapeHTML(c.message) + 
         ' <cite>' + c.author.name + ' ' +
         c.date_time_string + 
         '</cite> ' + link_to_github?(c, remote_url)+ '</li>'

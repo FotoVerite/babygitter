@@ -48,6 +48,10 @@ Then /^'(.*?)' is displayed$/ do |sentence|
   assert_match "#{sentence}", @stdout
 end
 
+Then /^'(.*?)' is error is displayed$/ do |sentence|
+  assert_match "#{sentence}", @stderr
+end
+
 Then /^'(.*?)' is not displayed$/ do |sentence|
   assert_no_match Regexp.new(sentence), @stdout 
 end
