@@ -17,7 +17,7 @@ module Babygitter
         @latest_commit = commits.first
         @is_master_branch = false
         @unique_commits = nil
-        @mapped_diffs = sorted_commits_by_week.map {|array_of_commits| array_of_commits.map(&:stats).map(&:to_diffstat).flatten }
+        @mapped_diffs = map_commits_to_diff_state_by_week
         @folder_array = get_array_of_mapped_folder_names
       end
       
@@ -26,6 +26,15 @@ module Babygitter
       # * remove the duplicates wih uniq
       def get_author_names
         @commits.sort_by {|k| k.author.name.downcase}.collect {|commit| commit.author.name}.uniq
+      end
+      
+      # Conver to diff state through gruff and map those by week
+      # * call sorted_commits_by_week to sort commits by week into arrays
+      # * map those arrays of commits and convert them to diff states
+      # * flatten array of diff states so they are contained by week and not by commit. 
+      # TODO this method is incredibly slow due to going through the command line. Improve!
+      def map_commits_to_diff_state_by_week
+        sorted_commits_by_week.map {|array_of_commits| array_of_commits.map(&:stats).map(&:to_diffstat).flatten }
       end
       
       # Create the authors objects for the branch
@@ -43,21 +52,24 @@ module Babygitter
         grouped_commits_array.map {|grouped_commits| Author.new(grouped_commits)}
       end
       
-      # Creates an array of arrays that contain strings made up of the week of year number and year
+      # Creates an array of arrays that contain strings made up of the week of year number and year 
+      # IE. 16 2008 would be week 16 of 2008
       # this is used to map the commits by week. 
+      #TODO  move into it's own module
       def create_active_date_array
         active_date_array = []
-        now = began.date
+        repo_began = began.date
         i = 0
-        weeks_repo_has_been_active = ((latest_commit.date - began.date ) / (60*60*24*1)).ceil
+        weeks_repo_has_been_active = ((latest_commit.date - repo_began ) / (60*60*24*1)).ceil
         while i <= weeks_repo_has_been_active
-          active_date_array << now.strftime("%U %Y")
-          now += (60*60*24*1)
+          active_date_array << repo_began.strftime("%U %Y")
+          repo_began += (60*60*24*1)
           i += 1
         end
         active_date_array.uniq
       end
-            
+      
+      # Sorts the commits by week into an array of arrays to plot out with gruff      
       def sorted_commits_by_week
         sort_array = create_active_date_array
         mapped_commits_array = Array.new(create_active_date_array.size).map {|a| a = []}
@@ -68,6 +80,8 @@ module Babygitter
         mapped_commits_array
       end
       
+      # Gets the total line added by week to the git repository
+      # TODO use this in an actual graph
       def get_total_lines_added_by_week
         @mapped_diffs.map {|week| week.map {|c| c.additions - c.deletions}}.map {|a| a.inject(0) {|result, number| result += number}}
       end
@@ -110,7 +124,6 @@ module Babygitter
           for diff in flattened_diffs
            folder_names << diff.filename.scan(build_regexp(i)) 
           end
-          #I hate this is there a better way. 
           i += 1
           array << folder_names.flatten.uniq          
         end
@@ -153,6 +166,8 @@ module Babygitter
         stable_hash
       end
       
+      # Collects the diff states by folder
+      # Folders the diffs are mapped to depends on inputed folder_level
       def get_folder_commits_by_week_and_level(folder_level)
         output = []
         diff_staff_by_week =  @mapped_diffs

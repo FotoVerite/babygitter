@@ -24,9 +24,9 @@ require 'babygitter/report_generator/application'
 require 'babygitter/report_generator/options'
 
 #added class for grit
-require 'babygitter/commit_addedum'
-require 'babygitter/commit_stats_addedum'
-require 'babygitter/to_proc_addedum'
+require 'babygitter/commit_addedum' #Only till grit is updated on rubyforge
+require 'babygitter/commit_stats_addedum' #Only till grit is updated on rubyforge
+require 'babygitter/ruby__addedum'
 
 
 # This module holds basic settings for the html generator.

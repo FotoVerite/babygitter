@@ -1,6 +1,6 @@
 require 'gruff'
 module Babygitter
-  class ReportGenerator < Babygitter::Repo
+  module GraphOutput
 
     THEME = {   # Declare a custom theme
       :colors => %w(orange silver yellow pink purple green white red #cccccc), # colors can be described on hex values (#0f0f0f)

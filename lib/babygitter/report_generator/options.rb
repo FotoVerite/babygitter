@@ -15,7 +15,7 @@ module Babygitter
           # Set folder levels to be plotted
           opts.on("-l", "--levels [n1,n2,n3]",
                   "Folder levels to map to graph", Array) do |levels|  
-            Babygitter.folder_levels  = levels.map {|n| n.to_i} unless levels.nil?
+            Babygitter.folder_levels  = levels.map {|n| n.to_i}.sort_by {|n|} unless levels.nil?
           end
 
           # Mark folders to be whitelisted or lacklisted
