@@ -24,13 +24,11 @@ require 'babygitter/report_generator/application'
 require 'babygitter/report_generator/options'
 
 #added class for grit
-require 'babygitter/commit_addedum' #Only till grit is updated on rubyforge
-require 'babygitter/commit_stats_addedum' #Only till grit is updated on rubyforge
-require 'babygitter/ruby__addedum'
-
+require 'babygitter/commit_addedum' # adds a nice date_time_string convenience method
+require 'babygitter/ruby_addedum'
 
 # This module holds basic settings for the html generator.
-#TODO figure out if this should instead be a class
+# TODO figure out if this should instead be a class
 module Babygitter
   
   class << self
@@ -40,13 +38,13 @@ module Babygitter
     
     #checks to make sure that this option is an array durring writing to the blacklisted_folders option
     def blacklisted_folders=(marked_folders)
-      raise "must be an array" unless blacklisted_folders.is_a?(Array)
+      raise ArgumentError, "must be an array" unless blacklisted_folders.is_a?(Array)
       @blacklisted_folders = blacklisted_folders
     end
     
     #checks to make sure that this option is an array  durring writing to the folder_levels option
     def folder_levels=(folder_levels)
-      raise "must be an array" unless folder_levels.is_a?(Array)
+      raise ArgumentError, "must be an array" unless folder_levels.is_a?(Array)
       @folder_levels = folder_levels
     end
     

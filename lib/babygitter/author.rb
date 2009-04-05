@@ -1,6 +1,6 @@
 module Babygitter
 
-  # A Branch contains the basic informtion for an author of a branch in a git repository
+  # An Author contains the basic informtion for an author of a Branch in a git repository
   class Author
     
      attr_accessor :name, :commits, :total_committed, :began, :latest_commit

@@ -25,7 +25,7 @@ module Babygitter
           case branch_names.length
           when 1:
             li do
-              a branch_names.first, :href => "##{branch_names.underscore}"
+              a branch_names.first, :href => "##{branch_names.first.underscore}"
             end
           else
             for name in branch_names[0..-2]

@@ -24,21 +24,18 @@ describe Babygitter::ReportGenerator do
   
   it "should display links to  author correctly if there is only one for branch" do
     GIT_REPO.branches.first.stub!(:author_names).and_return(['Matthew Bergman'])
-    GIT_REPO.author_links(GIT_REPO.branches.first).should == "  <ul class=\"page_control\">
-    <li>
-    Only       <a id=\"#nonpack_Matthew_Bergman\">Matthew Bergman</a>
- has committed to nonpack    </li>
-  </ul>\n" 
+    GIT_REPO.author_links(GIT_REPO.branches.first).gsub(/\s+/, ' ').should == " <ul class=\"page_control\">" +
+" <li> Only <a id=\"#nonpack_Matthew_Bergman\">Matthew Bergman</a> has committed to nonpack </li> </ul> " 
   end
   
   it "should list the branch names in a readible manner" do
-    GIT_REPO.branch_names_list(GIT_REPO.branch_names).should == "<ul class=\"page_control\">\n  <li>\n    "+
+    GIT_REPO.branch_names_list(GIT_REPO.branch_names).strip.should == "<ul class=\"page_control\">\n  <li>\n    "+
     "<a href=\"#nonpack\">nonpack</a>\n  </li>\n  <li>\n    <a href=\"#test/master\">test/master</a>\n  </li>\n  <li>\n    "+
     "<a href=\"#master\">master</a>\n  </li>\n  <li>\n    <a href=\"#test/chacon\">test/chacon</a>\n  </li>\n</ul>\n"
   end
   
   it "should output the branch synopsis in useable html" do
-    GIT_REPO.branch_synopsis(GIT_REPO.branches.first).should =="<p>Last commit was <tt><tt>ca8a30f</tt></tt> by Scott Chacon on Apr 18 07:27 PM 2008</p>
+    GIT_REPO.branch_synopsis(GIT_REPO.branches.first).gsub(/\s+/, ' ').should =="<p>Last commit was <tt><tt>ca8a30f</tt></tt> by Scott Chacon on Apr 18 07:27 PM 2008</p>
 <p>They have committed a total of 107 branches</p><p>nonpack is a stub with no unique commits </p>"
   end
   

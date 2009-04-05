@@ -15,6 +15,10 @@ Given 'a project directory' do
   Babygitter.marked_folders = []
 end
 
+Given /^a project directory that is not a git directory$/ do
+@project_dir = File.expand_path File.join(File.dirname(__FILE__), '..', '..', 'spec/')
+end
+
 Then /^I use the options* '(.*?)'$/ do |options|
   @options = options.split(', ')
 end
@@ -28,6 +32,10 @@ When /^I generate a report for '((?:\w|-|_)+)'/ do |repo_path|
   @stdout = OutputCatcher.catch_out do
     Babygitter::ReportGenerator::Application.run! *arguments
   end
+  
+  @stderr = OutputCatcher.catch_err do
+     Babygitter::ReportGenerator::Application.run! *arguments
+   end
 end
 
 Then /^a directory named '(.*)' is created$/ do |directory|
@@ -48,7 +56,7 @@ Then /^'(.*?)' is displayed$/ do |sentence|
   assert_match "#{sentence}", @stdout
 end
 
-Then /^'(.*?)' is error is displayed$/ do |sentence|
+Then /^'(.*?)' error is displayed$/ do |sentence|
   assert_match "#{sentence}", @stderr
 end
 

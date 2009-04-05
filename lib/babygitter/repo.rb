@@ -28,9 +28,11 @@ module Babygitter
       @total_commits = get_total_uniq_commits_in_repo
       @submodule_list = submodule_codes
       @project_name = get_project_name.capitalize
+      @branched_commit_found_for_branches = []
       set_master_branch(master_branch_name)
       find_unique_commits_per_branch
       analyze_branches
+      @branched_commit_found_for_branches = nil
     end
   
     # Gets all the commits in the repo from all branches and sorts them from newest to oldest
@@ -137,20 +139,19 @@ module Babygitter
     end
     
     def find_branch(name) 
-      @branches.find_all {|branch| branch.name == name}.first
+      @branches.find {|branch| branch.name == name}
     end
     
     def analyze_branches
       go_down_branch_from_head(@master_branch)
     end
 
-    @@branched_commit_found_for_branches = []
     def go_down_branch_from_head(branch)
-      @@branched_commit_found_for_branches << branch.name
+      @branched_commit_found_for_branches << branch.name
       for commit in branch.commits
         branches_commit_is_in = in_which_branches(commit.id)
-        if (branches_commit_is_in - @@branched_commit_found_for_branches).size > 0
-          branched_commits = (branches_commit_is_in - @@branched_commit_found_for_branches)
+        if (branches_commit_is_in - @branched_commit_found_for_branches).size > 0
+          branched_commits = (branches_commit_is_in - @branched_commit_found_for_branches)
           for name in branched_commits
             find_branch(name).branched_at = commit if commit.date > find_branch(name).branched_at.date
             go_down_branch_from_head(find_branch(name)) 

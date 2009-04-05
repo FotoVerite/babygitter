@@ -92,26 +92,13 @@ module Babygitter
         hash = {}
         array.map {|folder| hash[folder] = 0}
         if Babygitter.use_whitelist
-          hash[""] = 0 unless Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+          hash[""] = 0 if Babygitter.marked_folders.find { |item| item =~ /^program_folder$|^program folder/i }
         else
-          hash[""] = 0 if Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
+          hash[""] = 0 unless Babygitter.marked_folders.find{ |item| item =~ /^program_folder$|^program folder/i }
         end
         hash
       end
       
-      # Creates a hash from an array of folder names. 
-      # Also deletes or adds the "" hash key for collecting files in the top level folder
-      # Same principle as create_hash_map except the values are contained in arrays for data collection. 
-      def create_hash_map_with_array(array)
-        hash = {}
-        array.map {|folder| hash[folder] = [0]}
-        if Babygitter.use_whitelist
-          hash[""] = [0] unless Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
-        else
-          hash[""] = [0] if Babygitter.marked_folders.find_all{ |item| item =~ /^program_folder$|^program folder/i }.empty?
-        end
-        hash
-      end
       
       # Recursively get the folder names inside a project
       # Goes as many levels deep as specifi 
@@ -130,23 +117,10 @@ module Babygitter
         array
       end
       
-      # Creates the folder_array to turn into a hash of arrays for plotting the data
-      # * Gets the arrays of folders by levels and selects the ones applicable to that level 
-      # * Flattens the array of arrays and intersects it or removes folders in the Babygitter.marked_folders variable
-      # * is then sent off to create_hash_map_with_array
-      def folder_hash_with_arrays_for_level(folder_level)
-        if Babygitter.use_whitelist 
-          create_hash_map_with_array(@folder_array[0..(folder_level -1)].flatten & Babygitter.marked_folders)
-        else
-          create_hash_map_with_array(@folder_array[0..(folder_level -1)].flatten - Babygitter.marked_folders)
-        end
-      end
-      
       # Creates the folder_array to turn into a hash for collection of data from diff stats
       # * Gets the arrays of folders by levels and selects the ones applicable to that level 
       # * Flattens the array of arrays and intersects it or removes folders in the Babygitter.marked_folders variable
       # * is then sent off to create_hash_map
-      # TODO is there a clean way of combining this and folder_hash_with_arrays_for_level 
       def folder_hash_for_level(folder_level)
         if Babygitter.use_whitelist 
           create_hash_map(@folder_array[0..(folder_level -1)].flatten & Babygitter.marked_folders)
@@ -157,13 +131,20 @@ module Babygitter
       
       # Creates a hash to be used with gruff to plot out lines of codes commited to folder over weekly intervals
       def plot_folder_points(folder_level)
-        stable_hash = folder_hash_with_arrays_for_level(folder_level)
-        get_folder_commits_by_week_and_level(folder_level).each do |hash|
+        folder_commits = get_folder_commits_by_week_and_level(folder_level)
+        stable_hash = create_stable_hash(folder_commits)
+        folder_commits.each do |hash|
           hash.each_key do |key|
             stable_hash[key] << (stable_hash[key].last + hash[key])
           end
         end
-        stable_hash
+        return stable_hash
+      end
+      
+      def create_stable_hash(folder_commits)
+        stable_hash = {}
+        folder_commits.first.each_key {|key| stable_hash[key] = [0] }
+        return stable_hash
       end
       
       # Collects the diff states by folder

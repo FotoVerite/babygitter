@@ -52,7 +52,11 @@ describe Babygitter::Branch do
     BRANCH.sorted_commits_by_week.flatten.size.should == BRANCH.total_commits
   end
   
-  it "should create usuable regexs by level" 
+  it "should create usuable regexs by level" do
+    "folder_level_1/folder_level_2/file".scan(BRANCH.build_regexp(1)).to_s.should == "folder_level_1"
+    "folder_level_1/folder_level_2/file".scan(BRANCH.build_regexp(2)).to_s.should == "folder_level_1/folder_level_2"
+    "folder_level_1/folder_level_2/file".scan(BRANCH.build_regexp(3)).to_s.should == ""
+  end
   
   it "should map total lines commited per week" do
     BRANCH.get_total_lines_added_by_week.should.equal? [998, 324, 287, 716, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 82, 291, 12, 18, 

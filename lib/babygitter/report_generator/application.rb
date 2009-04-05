@@ -73,7 +73,8 @@ module Babygitter
             $stdout.puts "Report written to #{Babygitter.report_file_path}"
             return 0
           rescue Grit::InvalidGitRepositoryError
-                $stderr.puts "#{Babygitter.repo_path} is not a git repository"
+            $stderr.puts "#{Babygitter.repo_path} is not a git repository"
+            return 1
           end
         end
       end

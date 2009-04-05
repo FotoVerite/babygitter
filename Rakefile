@@ -31,7 +31,7 @@ end
 
 task :default => :spec
 
-require 'rake/rdoctask'
+require 'hanna/rdoctask'
 Rake::RDocTask.new do |rdoc|
   if File.exist?('VERSION.yml')
     config = YAML.load(File.read('VERSION.yml'))

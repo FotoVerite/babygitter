@@ -99,6 +99,6 @@ Scenario: user inputs a nonexistent project directory
 	Then '.* does not exist.' is displayed
 
 Scenario: user inputs a non-git directory
-	Given a project directory that is not a git director
+	Given a project directory that is not a git directory
 	When I generate a report for 'babygitter'
-	Then '.* does not exist.' is displayed
+	Then 'is not a git repository' error is displayed
