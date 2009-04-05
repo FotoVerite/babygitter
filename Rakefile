@@ -5,11 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "fotoverite-babygitter"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{A git repository analyzer}
     gem.email = "MZBPhoto@gmail.com"
     gem.homepage = "http://github.com/FotoVerite/fotoverite-babygitter"
     gem.authors = ["Matthew Bergman"]
-
+    gem.add_dependency "markaby", ">= 0.5"
+    gem.add_dependency "grit", '>= 1.1.1'
+    gem.add_dependency "gruff", '>= 0.3.4'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

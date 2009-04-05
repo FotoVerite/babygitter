@@ -42,21 +42,24 @@ module Babygitter
     def branch_details(branches, remote_url)
       markaby do
         branches.map do |branch|
-          h2.toggler.open branch.name, :id => branch.name.gsub(/ /, '')
+          h2.toggler.open "Branch #{branch.name}", :id => branch.name.gsub(/ /, '')
           div.toggle.branch do
             image_gallery(branch) if Babygitter.output_graphs
             div.branch_details do
               author_links(branch)
               branch_synopsis(branch)
+              hr :class => "end_of_info"
               h3.toggler.open "#{branch.name} commit history"
               div.toggle do
                 ul do
                   branch_committer_detail(branch, branch.commits, remote_url)
                 end
               end
+              hr :class => "end_of_info"
               author_details(branch.name, branch.authors, remote_url, branch.total_commits)
             end
           end
+          hr :class => "end_of_branch_info"
         end
       end
     end
@@ -84,7 +87,7 @@ module Babygitter
           }
         p "They have committed a total of #{pluralize(branch.total_commits, "commit", "commits")}"
         p "This is the designated master branch" if branch.is_master_branch
-        p "There are #{branch.unique_commits.size} #{branch.unique_commits.size == 1 ? 'unique commits' : 'unique commit'} for this branch"
+        p "There are #{branch.unique_commits.size} #{branch.unique_commits.size == 1 ? 'unique commit' : 'unique commits'} for this branch"
         p {"#{branch.name} branched at " + a(branch.branched_at.id_abbrev, :href => "##{branch.name}_branched_here")}
       end
     end
@@ -92,7 +95,7 @@ module Babygitter
     def author_details(branch_name, authors, remote_branch, total_for_branch)
       markaby do
         authors.map do |author|
-          h3.toggler.open author.name, :id => "#{branch_name}_#{author.name.underscore}"
+          h3.toggler.open "#{author.name} commits for #{branch_name}", :id => "#{branch_name}_#{author.name.underscore}"
           div.toggle :id => author.name do
             create_bar_graph_of_commits_in_the_last_52_weeks(author)
             p "#{author.name} first commit for this branch was on #{author.began.date_time_string}"
@@ -113,15 +116,10 @@ module Babygitter
     def author_links(branch)
       names =  branch.author_names
       markaby do
+        p "#{pluralize(names.size, 'author')} #{names.size == 1 ? 'has' :'have'} committed to this branch"
         ul.page_control do
-          case names.length
-          when 1:
-            li {"Only " + a(names.first, :id => "##{branch.name}_#{names.first.underscore}") + " has committed to #{branch.name}"  }
-          else
-            names[0..-2].map do |name|
-              li { a(name, :id =>"##{branch.name}_#{name.underscore}") + ","}
-            end
-            li {" and " + a(names.first, :id => "##{branch.name}_#{names.last.underscore}") + " have committed to #{branch.name}"  }
+          for name in names
+            li { a(name, :id =>"##{branch.name}_#{name.underscore}")}
           end
         end
       end

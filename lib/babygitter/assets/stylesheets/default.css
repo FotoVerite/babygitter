@@ -90,23 +90,17 @@ ul li.branched cite{
 }
 
 ul.page_control {
-	list-style:none;
-	display:inline;
-	padding-left:0px;
-	margin-left:0px;
 }
 
 ul.page_control li {
-	list-style:none;
-	display:inline;
 	margin-right:10px;
 }
 
 ul.page_control li a {
 	color:#954EC1;
 	text-decoration:none;
-	line-height:1.8em;
-	font-size:13px;
+	line-height:1.4em;
+	font-size:16px;
 }
 
 ul.page_control li a:hover {
@@ -117,7 +111,20 @@ tt { font-size:1.1em; }
 cite {
 	color:#999;
 	font-style:normal;}
-
+hr.end_of_branch_info { 
+	height:30px;
+	width:800px;
+	display:block;
+	border:none;
+	background: transparent url('asset_images/line_break.png') no-repeat center;
+	clear:both;
+	}
+	
+hr.end_of_info { 
+	margin:15px 0px;
+	border:1px solid gray;
+	clear:both;
+}
 div#about p {
 	font-size:1.1em;
 	margin-top:1.5em;
