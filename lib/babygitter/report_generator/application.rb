@@ -62,11 +62,11 @@ module Babygitter
           
           begin
             check_if_directory_exits(arguments)
-            Babygitter.repo_path = arguments.first
+            repo_path = File.expand_path arguments.first
             if options[:verbose]
               verbose_output(options)
             end
-            generator = Babygitter::ReportGenerator.new(Babygitter.repo_path, {:is_bare => options[:is_bare]}, options[:master_branch])
+            generator = Babygitter::ReportGenerator.new(repo_path, {:is_bare => options[:is_bare]}, options[:master_branch])
             prepare_file_stucture
             $stdout.puts "Begun generating report."
             generator.write_report

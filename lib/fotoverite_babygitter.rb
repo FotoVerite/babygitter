@@ -16,16 +16,26 @@ require 'grit'
 
  
 $:.unshift(File.dirname(__FILE__))
-require 'babygitter/repo'
+#Helper modules
+require 'babygitter/output_helpers/html_output'
+require 'babygitter/output_helpers/graph_output'
+
+#Statistic Modules
+require 'babygitter/statistics/date_time_arrays'
+require 'babygitter/statistics/folder_analysis_methods'
+
+#added addedums to ruby
+require 'babygitter/addedums/commit_addedum' # adds a nice date_time_string convenience method
+require 'babygitter/addedums/ruby_addedum'
+
+#regular files
+require 'babygitter/errorclasses'
+require 'babygitter/repo_analyzer'
 require 'babygitter/report_generator'
-require 'babygitter/branch'
-require 'babygitter/author'
+require 'babygitter/repo_analyzer/branch'
+require 'babygitter/repo_analyzer/author'
 require 'babygitter/report_generator/application'
 require 'babygitter/report_generator/options'
-
-#added class for grit
-require 'babygitter/commit_addedum' # adds a nice date_time_string convenience method
-require 'babygitter/ruby_addedum'
 
 # This module holds basic settings for the html generator.
 # TODO figure out if this should instead be a class

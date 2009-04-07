@@ -1,8 +1,7 @@
-require File.join(File.dirname(__FILE__), 'html_output')
-require File.join(File.dirname(__FILE__), 'graph_output')
+
 module Babygitter
   
-  class ReportGenerator < Babygitter::Repo
+  class ReportGenerator < Babygitter::RepoAnalyzer
     include HtmlOutput
     include GraphOutput
     
