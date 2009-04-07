@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "fotoverite-babygitter"
+    gem.name = "babygitter"
     gem.summary = %Q{A git repository analyzer}
     gem.email = "MZBPhoto@gmail.com"
     gem.homepage = "http://github.com/FotoVerite/babygitter"
