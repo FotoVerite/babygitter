@@ -7,7 +7,7 @@ begin
     gem.name = "fotoverite-babygitter"
     gem.summary = %Q{A git repository analyzer}
     gem.email = "MZBPhoto@gmail.com"
-    gem.homepage = "http://github.com/FotoVerite/fotoverite-babygitter"
+    gem.homepage = "http://github.com/FotoVerite/babygitter"
     gem.authors = ["Matthew Bergman"]
     gem.add_dependency "markaby", ">= 0.5"
     gem.add_dependency "grit", '>= 1.1.1'

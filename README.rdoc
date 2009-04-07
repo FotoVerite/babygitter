@@ -1,7 +1,40 @@
 = fotoverite-babygitter
 
-Description goes here.
+A gem that provides a report detailing Git information about your
+git repository. Based off an idea put forth by Mike Schwab
 
-== Copyright
+== Installation
+
+Installing the gem:
+	
+	[sudo] gem sources -a http://gems.github.com
+	[sudo] gem install fotoverite-babygitter
+
+== Usage
+
+Generate your report from the command line
+
+	 Usage: babygitter babygitter-report  <Repo_Directory> [options] [-w] [<folder levels>] [<blacklisted or whitelisted folders>]
+
+the report will be generated a <tt>babygitter_report</tt> folder  inside the <tt>log</tt> directory of your project folder. If a log folder does not exists it will be created for you. 
+
+== Customization
+
+You can customize the look of the report by adding a custom css file, images, and even generate the report with a separate template file. I'm working on a way to hook in additional graph methods to analyze the data further. 
+
+Specific options:
+    -l, --levels [n1,n2,n3]          Folder levels to map to graph
+    -m, --mark [f1,f2,f3]            Mark folders to be white or black listed depending on option
+        --master_branch              Set the master branch name if it is not called master
+    -s, --stylesheet [Path]          sets the path to a non default stylesheet to be used in the report generator
+    -t, --template [Path]            sets the path to a non default template to be used inthe report generator
+    -b, --[no-]bare                  Mark repo as bare
+    -w, --[no-]whitelist             Run babygitter with whitelist enabled
+    -g, --[yes-]graphs               Do not output report with graphs
+    -v, --[no-]verbose               Run verbosely
+
+Common options:
+    -h, --help                       Show this message
+        --version                    Show version number
 
 Copyright (c) 2009 Matthew Bergman. See LICENSE for details.
