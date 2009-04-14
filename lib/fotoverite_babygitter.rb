@@ -66,11 +66,11 @@ module Babygitter
   end
   
   self.repo_path = FileUtils.pwd #Should I even have this set or should I leve it as nil?
-  self.stylesheet = 'lib/babygitter/assets/stylesheets/default.css'
-  self.image_assets_path = 'lib/babygitter/assets/image_assets'
-  self.jquery = 'lib/babygitter/assets/javascripts/jquery.js'
-  self.template = 'lib/babygitter/assets/templates/default.html.erb'
-  self.additional_links = 'lib/babygitter/assets/guides/bdd_stack.html.erb'
+  self.stylesheet = File.expand_path 'lib/babygitter/assets/stylesheets/default.css'
+  self.image_assets_path =  File.expand_path 'lib/babygitter/assets/image_assets'
+  self.jquery =  File.expand_path 'lib/babygitter/assets/javascripts/jquery.js'
+  self.template =  File.expand_path 'lib/babygitter/assets/templates/default.html.erb'
+  self.additional_links =  File.expand_path 'lib/babygitter/assets/guides/bdd_stack.html.erb'
   self.use_whitelist = false
   self.output_graphs = true
   self.folder_levels = [1]
