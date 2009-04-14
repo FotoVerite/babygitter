@@ -1,7 +1,7 @@
 module Babygitter
   module FolderAnalysisMethods
     
-     # Creates a hash from an array of folder names. 
+      # Creates a hash from an array of folder names. 
       # Also deletes or adds the "" hash key for collecting files in the top level folder
       def create_hash_map(array)
         hash = {}
@@ -15,7 +15,7 @@ module Babygitter
       end
     
       # Recursively get the folder names inside a project
-      # Goes as many levels deep as specifi 
+      # Goes as many levels deep as specified
       def get_array_of_mapped_folder_names
         array = []
         flattened_diffs = @mapped_diffs.flatten 
@@ -43,7 +43,7 @@ module Babygitter
         end
       end
     
-      # Creates a hash to be used with gruff to plot out lines of codes commited to folder over weekly intervals
+      #  Puts the data into a stablized hash to be used with gruff to plot out lines of codes commited to folder over weekly intervals
       def plot_folder_points(folder_level)
         folder_commits = get_folder_commits_by_week_and_level(folder_level)
         stable_hash = create_stable_hash(folder_commits)
@@ -55,6 +55,7 @@ module Babygitter
         return stable_hash
       end
     
+      # Creates a stablized hash for diff state info to be plotted into. 
       def create_stable_hash(folder_commits)
         stable_hash = {}
         folder_commits.first.each_key {|key| stable_hash[key] = [0] }

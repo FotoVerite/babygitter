@@ -5,6 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "babygitter"
+    gem.rubyforge_project = 'babygitter' # This line would be new
     gem.summary = %Q{A git repository analyzer}
     gem.email = "MZBPhoto@gmail.com"
     gem.homepage = "http://github.com/FotoVerite/babygitter"
@@ -29,7 +30,6 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
-
 
 task :default => :spec
 

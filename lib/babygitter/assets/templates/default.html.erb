@@ -64,6 +64,7 @@
 				<%= branch_names_list(@branch_names) %>
 				<p>They have committed a total of <%=pluralize(@total_commits, "commit")%></p>
 			</div>
+			<hr class="end_of_branch_info"/>
 			
 			<%=branch_details(@branches, @remote_url)%>
 			
@@ -71,23 +72,28 @@
 				<%= additional_links %>
 			</div>
 		
-			<% unless submodule_list.nil? %>
+			
 			<div id="submodules">
 				<h2>Submodules</h2>
+				<% if @bare%>
+				<p> This repository is bare submodules cannot be ascertained.</p>
+				<% elsif !@submodule_list.empty? %>
 				<ul>
 					<%= @submodule_list.split("\n").map { |s| "<li><tt>#{s.strip}</tt></li>" }.join("\n") %>
 				</ul>
-			</div>
-			<% end %>
-			
-			<div id="instructions">
-			Does this need instructions
+				<% else %>
+				<p> This repository contains no submodules</p>
+				<% end %>
 			</div>
 		
 			<div id="about">
 				<h2>About</h2>
 				<p>
-					babygitter: <a href="http://github.com/schwabsauce/babygitter">http://github.com/schwabsauce/babygitter</a>
+					Source-code: <a href="http://github.com/Fotoverite/babygitter">http://github.com/Fotoverite/babygitter</a>
+				</p>
+				<p>
+					Babygitter: A ruby based git repository analyzer.<br /> 
+					Copyright (c) 2009 Matthew Bergman.
 				</p>
 			</div>
 		

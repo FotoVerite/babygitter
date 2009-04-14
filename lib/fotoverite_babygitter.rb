@@ -24,9 +24,9 @@ require 'babygitter/output_helpers/graph_output'
 require 'babygitter/statistics/date_time_arrays'
 require 'babygitter/statistics/folder_analysis_methods'
 
-#added addedums to ruby
-require 'babygitter/addedums/commit_addedum' # adds a nice date_time_string convenience method
-require 'babygitter/addedums/ruby_addedum'
+#added addendums to ruby
+require 'babygitter/addendums/commit_addendum' # adds a nice date_time_string convenience method
+require 'babygitter/addendums/ruby_addendum'
 
 #regular files
 require 'babygitter/errorclasses'
@@ -65,13 +65,12 @@ module Babygitter
   
   end
   
-  self.repo_path = FileUtils.pwd
-  self.stylesheet = File.join(File.dirname(__FILE__), 'babygitter/assets/stylesheets/default.css')
-  self.image_assets_path = File.join(File.dirname(__FILE__), 'babygitter/assets/image_assets')
-  self.jquery = File.join(File.dirname(__FILE__), 'babygitter/assets/javascripts/jquery.js')
-  self.template = File.join(File.dirname(__FILE__), 'babygitter/assets/templates/default.html.erb')
-  self.additional_links = File.join(File.dirname(__FILE__), 'babygitter/assets/guides/bdd_stack.html.erb')
-  self.instructions = File.join(File.dirname(__FILE__), 'babygitter/assets/guides/display_only.html.erb')
+  self.repo_path = FileUtils.pwd #Should I even have this set or should I leve it as nil?
+  self.stylesheet = 'lib/babygitter/assets/stylesheets/default.css'
+  self.image_assets_path = 'lib/babygitter/assets/image_assets'
+  self.jquery = 'lib/babygitter/assets/javascripts/jquery.js'
+  self.template = 'lib/babygitter/assets/templates/default.html.erb'
+  self.additional_links = 'lib/babygitter/assets/guides/bdd_stack.html.erb'
   self.use_whitelist = false
   self.output_graphs = true
   self.folder_levels = [1]

@@ -1,6 +1,7 @@
 
 module Babygitter
   
+  # Subclass of RepoAnalyzer, used for generating reports.
   class ReportGenerator < Babygitter::RepoAnalyzer
     include HtmlOutput
     include GraphOutput
@@ -12,6 +13,7 @@ module Babygitter
       raise "Could not find stylesheet #{Babygitter.stylesheet}" unless File.exist?(Babygitter.stylesheet)
     end
    
+    # Writes report to the directory specified by Babygitter.report_file_path
     def write_report
       r = File.open("#{Babygitter.report_file_path}/babygitter_report.html", 'w+')
       r.write templated_report
@@ -25,7 +27,6 @@ module Babygitter
       stylesheet, additional_links, instructions, jquery = '', '', '', ''
       File.open(Babygitter.stylesheet, 'r') { |f| stylesheet = f.read }
       File.open(Babygitter.additional_links, 'r') { |f| additional_links = f.read }
-      File.open(Babygitter.instructions, 'r') { |f| instructions = f.read }
       File.open(Babygitter.jquery, 'r') { |f| jquery = f.read }
       template = File.read(Babygitter.template)
       result = ERB.new(template).result(binding)

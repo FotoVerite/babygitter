@@ -2,6 +2,10 @@ module Babygitter
   module DateTimeArrays
     
     # Creates and array of arrays containing Week Number and Year starting from now and counting back 52 weeks.
+    # * Creates an array
+    # * Finds time now
+    # * Loops 52 times putting the week number and year into the array counting down one week each time
+    # * Reverses this array so earliest week is first
     def create_52_week_map
       array = []
       now = Time.now

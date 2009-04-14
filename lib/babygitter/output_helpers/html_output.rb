@@ -22,16 +22,9 @@ module Babygitter
     def branch_names_list(branch_names)
       markaby do
         ul.page_control do
-          case branch_names.length
-          when 1:
+          for name in branch_names
             li do
-              a branch_names.first, :href => "##{branch_names.first.underscore}"
-            end
-          else
-            for name in branch_names[0..-2]
-              li do
-                a name, :href => "##{name.underscore}"
-              end
+              a name, :href => "##{name.underscore}"
             end
           end
         end
@@ -88,7 +81,7 @@ module Babygitter
         p "They have committed a total of #{pluralize(branch.total_commits, "commit", "commits")}"
         p "This is the designated master branch" if branch.is_master_branch
         p "There are #{branch.unique_commits.size} #{branch.unique_commits.size == 1 ? 'unique commit' : 'unique commits'} for this branch"
-        p {"#{branch.name} branched at " + a(branch.branched_at.id_abbrev, :href => "##{branch.name}_branched_here")}
+        p {"#{branch.name} branched at " + a( branch.branched_at.id_abbrev, :class => "branched_at_link", :href => "##{branch.name}_branched_here")}
       end
     end
 
@@ -119,7 +112,7 @@ module Babygitter
         p "#{pluralize(names.size, 'author')} #{names.size == 1 ? 'has' :'have'} committed to this branch"
         ul.page_control do
           for name in names
-            li { a(name, :id =>"##{branch.name}_#{name.underscore}")}
+            li { a(name, :href =>"##{branch.name}_#{name.underscore}")}
           end
         end
       end

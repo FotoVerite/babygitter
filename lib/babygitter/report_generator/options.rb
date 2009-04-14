@@ -2,6 +2,22 @@ module Babygitter
   class ReportGenerator
     class Options < Hash
       attr_reader :opts
+      
+      def check_if_directory_exits(path)
+        if !File.exists?(path)
+          abort "'#{path}' does not exist."
+        elsif !File.directory?(path)
+          abort "'#{path}' is not a directory."
+        end
+      end
+      
+      def check_if_file_exits(path)
+        if !File.exists?(path)
+          abort "'#{path}' does not exist."
+        elsif File.directory?(path)
+          abort "'#{path}' is a directory."
+        end
+      end
  
       def initialize(args)
         super()
@@ -32,20 +48,26 @@ module Babygitter
           
           # Set the stylesheet
           opts.on("-s", "--stylesheet [Path]",
-                  "sets the path to a non default stylesheet used in for the report generator", Array) do |folders|
-            Babygitter.marked_folders  = folders  unless folders.nil?
+                  "sets the path to a custome stylesheet used in the  report generator") do |path|
+            expanded_path = File.expand_path path
+            check_if_file_exits(expanded_path)
+            Babygitter.stylesheet = expanded_path
           end
           
           # Set the stylesheet
-          opts.on("-s", "--stylesheet [Path]",
-                  "sets the path to a non default stylesheet to be used in the report generator") do |path|
-            Babygitter.stylesheet = path
+          opts.on("-i", "--image_path [Path]",
+                  "sets the path to a custome image folder to be used in the report generator") do |path|
+            expanded_path = File.expand_path path
+            check_if_directory_exits(expanded_path)
+            Babygitter.image_assets_path = File.expand_path path
           end
           
-          # Set the stylesheet
+          # Set a custome template
           opts.on("-t", "--template [Path]",
-                  "sets the path to a non default template to be used inthe report generator") do |path|
-            Babygitter.template = path
+                  "sets the path to a custome template to be used in the report generator") do |path|
+            expanded_path = File.expand_path path
+            check_if_file_exits(expanded_path)
+            Babygitter.template = File.expand_path path
           end
           
           # Boolean switch.
@@ -53,17 +75,17 @@ module Babygitter
             self[:is_bare] = b
           end
 
-          # Boolean switch.
+          # Boolean switch.for whitelist
           opts.on("-w", "--[no-]whitelist", "Run babygitter with whitelist enabled") do |w|
             Babygitter.use_whitelist = w
           end
 
-          # Boolean switch.
+          # Boolean switch for graphs.
           opts.on("-g", "--[yes-]graphs", "Do not output report with graphs") do 
             Babygitter.output_graphs = false
           end
           
-          # Boolean switch.
+          # Boolean switch for application to run verbosely.
           opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
             self[:verbose] = v
           end
@@ -77,7 +99,7 @@ module Babygitter
             self[:show_help] = true
           end
 
-          # Another typical switch to print the version.
+          # Switch to print the version.
           opts.on_tail("--version", "Show version number") do
             self[:show_version_number] = true
           end
@@ -90,6 +112,7 @@ module Babygitter
           puts opts
           exit 1
         end
+        
       end
     end
   end
