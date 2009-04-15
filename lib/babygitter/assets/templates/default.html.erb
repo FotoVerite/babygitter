@@ -60,7 +60,7 @@
 				<p>The main repository on this server is at version <tt><%= @lastest_commit.id_abbrev %></tt>.
 				<p>It was last deployed <%=@lastest_commit.date_time_string  %>.</p>
 				<p><%= authors_list(@authors_names) %> committed to this project since <%= @began.date_time_string%>.</p>
-				<p> The repository has <%=pluralize(@branches.size, "branch") %>:</p>
+				<p> The repository has <%=pluralize(@branches.size, "branch", "branches") %>:</p>
 				<%= branch_names_list(@branch_names) %>
 				<p>They have committed a total of <%=pluralize(@total_commits, "commit")%></p>
 			</div>

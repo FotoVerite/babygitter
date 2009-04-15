@@ -3,7 +3,7 @@ module Babygitter
   module GraphOutput
 
     THEME = {   # Declare a custom theme
-      :colors => %w(orange silver yellow pink purple green white red #cccccc), # colors can be described on hex values (#0f0f0f)
+      :colors => %w(orange silver yellow pink purple green #009999 #0033CC #E60066 #FED9BF #FFB200 #FFE500 #B2B300 #8FB200 #E6FEBF #BFFFFE #12127D #EABFFE #FE80B9 #B22400 white red #cccccc), # colors can be described on hex values (#0f0f0f)
       :font_color => 'white',
       :marker_color => 'white', # The horizontal lines color
       :background_colors => %w(black grey) # you can use instead: :background_image => ‘some_image.png’
@@ -101,6 +101,7 @@ module Babygitter
       g = Gruff::Line.new('800x600') # Define a custom size
       g.title = "Plot of commits #{pluralize(level, 'level')} deep"
       g.legend_font_size = 12 # Legend font size
+      g.theme = THEME
 
 
       branch.plot_folder_points(level).each do |key,value|
@@ -117,6 +118,8 @@ module Babygitter
       g = Gruff::Line.new(SMALL_SIZE) # Define a custom size
       g.title = "Plot of commits #{pluralize(level, 'level')} deep"
       g.legend_font_size = 32 # Legend font size
+      g.theme = THEME
+      
       g.hide_legend = true
       branch.plot_folder_points(level).each do |key,value|
         key = "program_folder" if key == ""

@@ -23,15 +23,15 @@ module Babygitter
         
         # Displays custome files being used in gneration, if any, when verbose is on. 
         def using_custom_files?
-          if Babygitter.template != 'lib/babygitter/assets/templates/default.html.erb'
+          if Babygitter.template.scan(/lib\/babygitter\/assets\/templates\/default.html.erb/).empty?
             $stdout.puts "Using custom template at #{Babygitter.template}"
           end
           
-          if Babygitter.stylesheet != 'lib/babygitter/assets/stylesheets/default.css'
+          if Babygitter.stylesheet.scan(/babygitter\/assets\/stylesheets\/default.css/).empty?
             $stdout.puts "Using custom stylesheet at #{Babygitter.stylesheet}"
           end
           
-          if Babygitter.image_assets_path != 'lib/babygitter/assets/image_assets'
+          if Babygitter.image_assets_path.scan(/lib\/babygitter\/assets\/image_assets/).empty?
             $stdout.puts "Using custom images at #{Babygitter.image_assets_path}"
           end
         end
