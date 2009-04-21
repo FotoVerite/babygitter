@@ -13,6 +13,7 @@ begin
     gem.add_dependency "markaby", ">= 0.5"
     gem.add_dependency "grit", '>= 1.1.1'
     gem.add_dependency "gruff", '>= 0.3.4'
+    gem.add_dependency "rmagick", '>=2.9.0'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
