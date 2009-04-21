@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew Bergman"]
-  s.date = %q{2009-04-15}
+  s.date = %q{2009-04-20}
   s.default_executable = %q{babygitter-report}
   s.email = %q{MZBPhoto@gmail.com}
   s.executables = ["babygitter-report"]
@@ -28,14 +28,17 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<markaby>, [">= 0.5"])
       s.add_runtime_dependency(%q<grit>, [">= 1.1.1"])
       s.add_runtime_dependency(%q<gruff>, [">= 0.3.4"])
+      s.add_runtime_dependency(%q<rmagick>, [">= 2.9.0"])
     else
       s.add_dependency(%q<markaby>, [">= 0.5"])
       s.add_dependency(%q<grit>, [">= 1.1.1"])
       s.add_dependency(%q<gruff>, [">= 0.3.4"])
+      s.add_dependency(%q<rmagick>, [">= 2.9.0"])
     end
   else
     s.add_dependency(%q<markaby>, [">= 0.5"])
     s.add_dependency(%q<grit>, [">= 1.1.1"])
     s.add_dependency(%q<gruff>, [">= 0.3.4"])
+    s.add_dependency(%q<rmagick>, [">= 2.9.0"])
   end
 end
